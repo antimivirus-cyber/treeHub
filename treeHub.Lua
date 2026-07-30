@@ -11,6 +11,8 @@ local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
 
+
+
 local function StartTreeHub()
     local LocalPlayer = Players.LocalPlayer
     local Camera = workspace.CurrentCamera
@@ -241,7 +243,6 @@ local function StartTreeHub()
     Logo.Position = UDim2.new(0, 2, 0, 2)
     Logo.BackgroundTransparency = 1
     Logo.Image = "rbxassetid://108429972282329"
-    Logo.Zindex = 15
     Logo.Parent = TitleBar
 
     local Title = Instance.new("TextLabel")
@@ -252,7 +253,6 @@ local function StartTreeHub()
     Title.Font = Enum.Font.GothamBold
     Title.TextSize = 16
     Title.TextXAlignment = Enum.TextXAlignment.Left
-    Title.Zindex = 15
     Title.Parent = TitleBar
     registerTheme(Title, "Accent", "TextColor3")
 
