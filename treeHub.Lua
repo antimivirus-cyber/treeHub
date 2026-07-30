@@ -11,10 +11,6 @@ local CoreGui = game:GetService("CoreGui")
 local HttpService = game:GetService("HttpService")
 local TeleportService = game:GetService("TeleportService")
 
-if CoreGui:FindFirstChild("treeHubGui") then
-    return
-end
-
 local function StartTreeHub()
     local LocalPlayer = Players.LocalPlayer
     local Camera = workspace.CurrentCamera
