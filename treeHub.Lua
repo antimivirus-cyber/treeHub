@@ -1,6 +1,6 @@
 -- made by tree3
 -- the best pvp hub, TREEHUB
--- its light, fast, good and SUPER DUPER ULTRA MEGA PRO MAX cool...
+-- its light, fast, good and SUPER DUPER ULTRA MEGA PRO MAX cool....
 -- dont use without permission, look at the lisence
 
 local Players = game:GetService("Players")
