@@ -1,42 +1,27 @@
-
 local HttpService = game:GetService("HttpService")
-local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
 local Players = game:GetService("Players")
 
 local function GetClientHWID()
-    local hwid = ""
-    if gethwid then
-        hwid = gethwid()
-    elseif get_hwid then
-        hwid = get_hwid()
-    elseif RbxAnalyticsService then
-        hwid = RbxAnalyticsService:GetClientId()
-    else
-        hwid = Players.LocalPlayer.UserId
-    end
-    return tostring(hwid)
+    if gethwid then return tostring(gethwid()) end
+    if get_hwid then return tostring(get_hwid()) end
+    local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
+    if RbxAnalyticsService then return tostring(RbxAnalyticsService:GetClientId()) end
+    return tostring(Players.LocalPlayer.UserId)
 end
 
 local function ExecuteMainScript()
     if not _G.Key or _G.Key == "" then
-        warn("[treeHub System] HATA: Lütfen _G.Key değerini giriniz!")
+        warn("[treeHub System] ERROR: Please enter a valid _G.Key!")
         return
     end
 
-    local client_hwid = GetClientHWID()
+    local hwid = GetClientHWID()
     local localPlayer = Players.LocalPlayer
-    local username = localPlayer and localPlayer.Name or "UnknownUser"
-    local userId = localPlayer and tostring(localPlayer.UserId) or "0"
+    local user = localPlayer and localPlayer.Name or "UnknownUser"
+    local uid = localPlayer and tostring(localPlayer.UserId) or "0"
 
     local worker_url = "https://treehubbackend.antimivirus.workers.dev/"
-    local fetch_endpoint = string.format(
-        "%s?key=%s&hwid=%s&user=%s&uid=%s",
-        worker_url,
-        HttpService:UrlEncode(tostring(_G.Key)),
-        HttpService:UrlEncode(client_hwid),
-        HttpService:UrlEncode(username),
-        HttpService:UrlEncode(userId)
-    )
+    local fetch_endpoint = worker_url .. "?key=" .. HttpService:UrlEncode(tostring(_G.Key)) .. "&hwid=" .. HttpService:UrlEncode(hwid) .. "&user=" .. HttpService:UrlEncode(user) .. "&uid=" .. HttpService:UrlEncode(uid)
 
     local success, response = pcall(function()
         return game:HttpGet(fetch_endpoint, true)
@@ -46,16 +31,16 @@ local function ExecuteMainScript()
         if response:sub(1, 12) == "Unauthorized" or response:sub(1, 12) == "Server Error" or response:sub(1, 7) == "Blocked" then
             warn("[treeHub System] " .. response)
         else
-            print("[treeHub System] Doğrulama Başarılı! Script Yükleniyor...")
+            print("[treeHub System] Authentication Successful! Loading Script...")
             local main_function, err = loadstring(response)
             if main_function then
                 main_function()
             else
-                warn("[treeHub System] Script Çalıştırma Hatası: " .. tostring(err))
+                warn("[treeHub System] Execution Error: " .. tostring(err))
             end
         end
     else
-        warn("[treeHub System] Sunucuya bağlanılamadı.")
+        warn("[treeHub System] ERROR: Failed to connect to authentication server.")
     end
 end
 
