@@ -1,6 +1,4 @@
--- ==========================================
--- TREEHUB CLIENT LOADER (WORKER SYNCED)
--- ==========================================
+
 
 local HttpService = game:GetService("HttpService")
 local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
@@ -29,7 +27,7 @@ local function ExecuteMainScript()
 
     local client_hwid = GetClientHWID()
     
-    -- Cloudflare Worker Backend Adresin
+
     local worker_url = "https://treehubbackend.antimivirus.workers.dev/"
     local fetch_endpoint = worker_url .. "?key=" .. HttpService:UrlEncode(tostring(_G.Key)) .. "&hwid=" .. HttpService:UrlEncode(client_hwid)
 
